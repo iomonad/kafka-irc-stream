@@ -1,4 +1,13 @@
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
 *.class
-*.log
-*.idea
+/.lein-*
+/.nrepl-port
+.idea
+*.class
 *target*
