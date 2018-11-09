@@ -1,11 +1,14 @@
 package io.trosa.kafkasink.actors
 
-import akka.actor.Actor
+import io.trosa.kafkasink.meta.MQActorWithBootedConsumers
+import io.trosa.kafkasink.models.KafkaMessage
 
-class KafkaSemaphore extends Actor {
+class KafkaSemaphore extends
+  MQActorWithBootedConsumers[KafkaMessage] {
 
   override def receive: Receive = {
-     // TODO: Determine receive scope
+    case record: KafkaMessage =>
+      log.info(s"Got New record: ${record.msg}")
   }
 
 }
