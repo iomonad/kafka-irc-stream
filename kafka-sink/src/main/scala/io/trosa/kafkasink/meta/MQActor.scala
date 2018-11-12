@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.{ConsumerSettings, Subscriptions}
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import io.trosa.kafkasink.models.KafkaMessage
+import io.trosa.kafkasink.models.{KafkaHrInput, KafkaIrcInput, KafkaMessage}
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
 
@@ -43,17 +43,17 @@ trait MQActorWithConsumers[A] extends MQActor[A] {
   /**
     * @note Use actor as sink.
     * */
-  lazy val actorSink: Sink[KafkaMessage, NotUsed] =
+  lazy val actorReloadSink: Sink[KafkaHrInput, NotUsed] =
     Sink.actorRef(self, NotUsed)
 
   /**
     * Hot Reload topic listener Akka Stream Source source.
     * @note should be started in preStart hook.
     * */
-  lazy val hrconsumer: Source[KafkaMessage, Consumer.Control] = Consumer
+  lazy val hrconsumer: Source[KafkaHrInput, Consumer.Control] = Consumer
       .plainSource(kafkaconfig, Subscriptions.topics(hrtopic))
       .via(Flow[ConsumerRecord[Array[Byte], String]].map { x =>
-        KafkaMessage(x.key, x.value)
+        KafkaHrInput(x.key, x.value)
       })
 
 }
@@ -65,6 +65,6 @@ trait MQActorWithBootedConsumers[A]
     * @note Boot up Subscribers and publishers
     * */
   override def preStart (): Unit = {
-    hrconsumer.runWith(actorSink)
+    hrconsumer.runWith(actorReloadSink)
   }
 }
