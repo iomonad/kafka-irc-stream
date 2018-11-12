@@ -67,5 +67,4 @@ trait MQActorWithBootedConsumers[A]
   override def preStart (): Unit = {
     hrconsumer.runWith(actorSink)
   }
-
 }

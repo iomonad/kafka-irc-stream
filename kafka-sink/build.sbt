@@ -26,5 +26,5 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "org.typelevel" %% "cats-core" % "1.4.0"
-
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-kafka" % "1.0-M1"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime
