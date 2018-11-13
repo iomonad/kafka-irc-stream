@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.kafka.scaladsl.Consumer
 import akka.kafka.{ConsumerSettings, Subscriptions}
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import io.trosa.kafkasink.models.{KafkaHrInput, KafkaIrcInput, KafkaMessage}
+import io.trosa.kafkasink.models.KafkaHrInput
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
 

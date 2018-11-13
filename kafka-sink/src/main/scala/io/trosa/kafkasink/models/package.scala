@@ -54,6 +54,7 @@ package object models {
     */
   sealed trait IrcMethods
   case class CreateConnection(server: InetSocketAddress) extends IrcMethods
+  case class DeleteConnection(server: InetSocketAddress) extends IrcMethods
   case object CloseConnection extends IrcMethods
   case class ServerInput(message: ByteString, server: IrcServer)
 

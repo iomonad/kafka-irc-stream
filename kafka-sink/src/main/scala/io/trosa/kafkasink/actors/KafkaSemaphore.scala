@@ -1,7 +1,7 @@
 package io.trosa.kafkasink.actors
 
 import io.trosa.kafkasink.extensions.MQActorWithBootedConsumers
-import io.trosa.kafkasink.models.{KafkaHrInput, KafkaMessage, KafkaIrcInput}
+import io.trosa.kafkasink.models.{KafkaHrInput, KafkaIrcInput, KafkaMessage}
 
 class KafkaSemaphore extends
   MQActorWithBootedConsumers[KafkaMessage] {
