@@ -1,4 +1,4 @@
-package io.trosa.kafkasink.meta
+package io.trosa.kafkasink.extensions
 
 import akka.NotUsed
 import akka.kafka.scaladsl.Consumer

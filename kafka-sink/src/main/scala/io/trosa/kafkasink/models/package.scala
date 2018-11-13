@@ -1,5 +1,10 @@
 package io.trosa.kafkasink
 
+import java.net.InetSocketAddress
+
+import akka.io.Tcp.Write
+import akka.util.ByteString
+
 package object models {
 
   sealed trait KafkaModels[A]
@@ -30,5 +35,26 @@ package object models {
     */
   case class KafkaIrcInput(byte: Array[Byte], msg: String)
     extends KafkaModels[String]
+
+
+  /**
+    * @note wrap server informations
+    * */
+  case class IrcServer(servername: String)
+
+  /***
+    * @note IRC Event Akka messages
+    */
+  sealed trait IrcServerEvent
+  case object IrcConnectionFailed extends IrcServerEvent
+  case class IrcBufferFull(w: Write) extends IrcServerEvent
+
+  /***
+    * @note IRC connections related directives
+    */
+  sealed trait IrcMethods
+  case class CreateConnection(server: InetSocketAddress) extends IrcMethods
+  case object CloseConnection extends IrcMethods
+  case class ServerInput(message: ByteString, server: IrcServer)
 
 }

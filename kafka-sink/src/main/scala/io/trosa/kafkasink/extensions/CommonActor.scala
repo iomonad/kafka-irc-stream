@@ -1,4 +1,4 @@
-package io.trosa.kafkasink.meta
+package io.trosa.kafkasink.extensions
 
 import akka.actor.{Actor, ActorLogging, ActorSystem}
 import akka.stream.ActorMaterializer
@@ -12,4 +12,8 @@ trait CommonActor extends Actor with ActorLogging {
   final lazy val config: Config =
     ConfigFactory.defaultApplication()
 
+  /***
+    * @note actoref from system should be
+    *       instanciated here.
+    */
 }
