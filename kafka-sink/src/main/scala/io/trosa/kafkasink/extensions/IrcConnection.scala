@@ -118,5 +118,6 @@ trait PooledStreamConnection extends IrcCommons {
   */
 abstract class IrcConnection(server: InetSocketAddress, listener: ActorRef) extends IrcCommons {
 
-
+  val sentinel: Boolean
+  
 }
