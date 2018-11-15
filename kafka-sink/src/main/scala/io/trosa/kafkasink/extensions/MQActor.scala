@@ -24,7 +24,7 @@ trait MQActor[A] extends CommonActor {
     ConsumerSettings(system,
       new ByteArrayDeserializer,
       new StringDeserializer)
-      .withBootstrapServers("127.0.0.1:9092")
+      .withBootstrapServers("dev01-hbm-kfk01.aws.cpdev.local/:9092")
       .withGroupId("group1")
       .withCloseTimeout(5 second)
 
