@@ -8,6 +8,7 @@ import akka.event.Logging
 import akka.stream._
 import akka.stream.scaladsl._
 import akka.util.ByteString
+import io.trosa.kafkasink.generic.IrcSourceShape
 import io.trosa.kafkasink.models._
 
 import scala.collection.mutable
@@ -59,15 +60,10 @@ trait PooledStreamConnection extends IrcCommons {
       /**
         * Source connection from server
         */
-      val source = builder.add(Source(1 to 1000000).map(ByteString(_)))
+      val sourceGraph: IrcSourceShape[ServerInput] =
+        new IrcSourceShape[ServerInput](connection, Some("irc-server"))
 
-      /**
-        * Wrap bytestring into convenient object.
-        */
-      val converter: FlowShape[ByteString, ServerInput] = builder.add(Flow[ByteString]
-        .map { x =>
-          ServerInput(x, IrcServer(connection.server.getHostString))
-        })
+      val source: Source[ServerInput, NotUsed] = Source.fromGraph(sourceGraph)
 
       /**
         * Output Pipe
@@ -77,7 +73,7 @@ trait PooledStreamConnection extends IrcCommons {
           .log("connection", x => s"Got new input from IRC source: ${x.message}")
           .withAttributes(Attributes.logLevels(onElement = Logging.DebugLevel)))
 
-      source ~> converter ~> pipe
+      source ~> pipe
 
       SourceShape(pipe.out)
     }
