@@ -14,5 +14,5 @@ object Kernel extends App {
   val irc: ActorRef = system.actorOf(Props[IrcActor], "IrcConnection")
 
 
-  irc ! CreateConnection(new InetSocketAddress("irc.freenode.net", 6667))
+  irc ! CreateConnection(new InetSocketAddress("localhost", 6667))
 }

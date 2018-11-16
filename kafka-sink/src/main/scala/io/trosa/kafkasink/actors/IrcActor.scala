@@ -1,11 +1,7 @@
 package io.trosa.kafkasink.actors
 
-import akka.Done
-import akka.stream.scaladsl.Sink
 import io.trosa.kafkasink.extensions.PooledStreamConnection
 import io.trosa.kafkasink.models.{CreateConnection, DeleteConnection}
-
-import scala.concurrent.Future
 
 class IrcActor extends PooledStreamConnection {
 

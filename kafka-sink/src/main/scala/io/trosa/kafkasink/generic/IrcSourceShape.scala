@@ -1,10 +1,10 @@
 package io.trosa.kafkasink.generic
 
 import java.io.OutputStream
-import java.net.{InetAddress, InetSocketAddress, Socket}
+import java.net.{InetSocketAddress, Socket}
 
-import akka.stream.{Attributes, Outlet, SourceShape}
 import akka.stream.stage.{GraphStage, GraphStageLogic, OutHandler}
+import akka.stream.{Attributes, Outlet, SourceShape}
 import akka.util.ByteString
 import io.trosa.kafkasink.models.{CreateConnection, IrcServer, ServerInput}
 
@@ -20,7 +20,7 @@ import scala.util.Random
   * @tparam T
   */
 class IrcSourceShape[T](server: CreateConnection, name: Option[String])
-  extends GraphStage[SourceShape[ServerInput]] {
+  extends GraphStage[SourceShape[ServerInput]]  {
 
   val out: Outlet[ServerInput] = Outlet("IRCconnection.out")
 
@@ -45,11 +45,11 @@ class IrcSourceShape[T](server: CreateConnection, name: Option[String])
           val writer: OutputStream =
             connection.getOutputStream
 
-          input.foreach { message =>
+          input foreach { message =>
             if (message.utf8String.contains("PING")) {
               writer.write(ByteString("PONG").toArray)
             }
-            push(out, ServerInput(message,
+            emit(out, ServerInput(message,
               IrcServer(name.getOrElse(Random.nextString(5)))))
           }
         }

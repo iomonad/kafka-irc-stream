@@ -2,18 +2,16 @@ package io.trosa.kafkasink.extensions
 
 import java.net.InetSocketAddress
 
-import akka.{Done, NotUsed}
 import akka.actor.ActorRef
 import akka.event.Logging
 import akka.stream._
 import akka.stream.scaladsl._
-import akka.util.ByteString
+import akka.{Done, NotUsed}
 import io.trosa.kafkasink.generic.IrcSourceShape
 import io.trosa.kafkasink.models._
 
 import scala.collection.mutable
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
 /***
   *
@@ -71,7 +69,7 @@ trait PooledStreamConnection extends IrcCommons {
       val pipe: FlowShape[ServerInput, ServerInput] =
         builder.add(Flow[ServerInput]
           .log("connection", x => s"Got new input from IRC source: ${x.message}")
-          .withAttributes(Attributes.logLevels(onElement = Logging.DebugLevel)))
+          .withAttributes(Attributes.logLevels(onElement = Logging.InfoLevel)))
 
       source ~> pipe
 
@@ -100,7 +98,7 @@ trait PooledStreamConnection extends IrcCommons {
       case Some(switch) =>
         switch.shutdown()
         switches.remove(server)
-          log.info(s"Killed Switch connection: ${server} from MergeHub.")
+          log.info(s"Killed Switch connection: $server from MergeHub.")
       case None =>
         log.warning(s"""The switch for the server " $server " don't exists. Skipping.""")
     }

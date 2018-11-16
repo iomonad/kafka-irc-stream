@@ -16,6 +16,9 @@ import scala.concurrent.duration._
   * */
 trait MQActor[A] extends CommonActor {
 
+  private[this] val host = config.getString("kafka.host")
+  private[this] val port = config.getInt("kafka.port")
+
   /**
     * @note Single node used here. The config
     *       is shared with the trait.
@@ -24,7 +27,7 @@ trait MQActor[A] extends CommonActor {
     ConsumerSettings(system,
       new ByteArrayDeserializer,
       new StringDeserializer)
-      .withBootstrapServers("dev01-hbm-kfk01.aws.cpdev.local/:9092")
+      .withBootstrapServers(s"$host:$port")
       .withGroupId("group1")
       .withCloseTimeout(5 second)
 

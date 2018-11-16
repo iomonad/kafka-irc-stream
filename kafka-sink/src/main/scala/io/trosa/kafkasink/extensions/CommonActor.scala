@@ -10,7 +10,7 @@ trait CommonActor extends Actor with ActorLogging {
   implicit val materi: ActorMaterializer = ActorMaterializer()
 
   final lazy val config: Config =
-    ConfigFactory.defaultApplication()
+    ConfigFactory.load
 
   /***
     * @note actoref from system should be
